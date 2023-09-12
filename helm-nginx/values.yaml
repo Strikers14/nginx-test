@@ -5,7 +5,7 @@
 replicaCount: 3
 
 image:
-  repository: asia-northeast3-docker.pkg.dev/kjh-test/nginx/nginx-test
+  repository: asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test
   # Overrides the image tag whose default is the chart appVersion.
   tag: #Override
 
@@ -17,7 +17,7 @@ serviceAccount:
   # Specifies whether a service account should be created
   create: true
   # Annotations to add to the service account
-  gcpServiceAccount: jh-test-deploy-gke@kjh-test.iam.gserviceaccount.com
+  gcpServiceAccount: jh-sc-deploy@kjh-test-393501.iam.gserviceaccount.com
   name: ""
 
 podAnnotations: {}
@@ -43,7 +43,7 @@ ingress:
   annotations:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-    kubernetes.io/ingress.global-static-ip-name: kjh-test-ip
+    kubernetes.io/ingress.global-static-ip-name: jh-test-ip
   path: /
 
 resources:
