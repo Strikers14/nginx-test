@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 5
+replicaCount: 10
 
 image:
   repository: asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test
@@ -68,8 +68,8 @@ autoscaling:
 strategy:
   type: RollingUpdate
   rollingUpdate:
-    maxSurge: 10%
-    maxUnavailable: 0
+    maxSurge: 25%
+    maxUnavailable: 25%
 
     
 nodeSelector: {}
