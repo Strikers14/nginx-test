@@ -68,8 +68,8 @@ autoscaling:
 strategy:
   type: RollingUpdate
   rollingUpdate:
-    maxSurge: 25%
-    maxUnavailable: 25%
+    maxSurge: 1
+    maxUnavailable: 1
 
     
 nodeSelector: {}
