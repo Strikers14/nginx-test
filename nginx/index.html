@@ -7,19 +7,17 @@
   <body>
     <center>
     <h1>테스트 용 홈페이지</h1>
-    <h3>Image Tag : test</h3>
+    <p id="imageName"></p>
+      <p id="imageTag"></p>
     </center>
     <script>
-        // JavaScript를 사용하여 IP 주소를 가져오고 페이지에 표시
-        fetch('https://api64.ipify.org?format=json')
-            .then(response => response.json())
-            .then(data => {
-                const ipAddress = data.ip;
-                document.getElementById('ip-address').textContent = `현재 IP 주소: ${ipAddress}`;
-            })
-            .catch(error => {
-                console.error('IP 주소를 가져오는 중 오류가 발생했습니다:', error);
-            });
+      // 이미지 태그 가져오기
+      const imageName = "Image Name: " + "{{ imageName }}";
+      document.getElementById("imageName").textContent = imageName;
+
+      // 이미지 태그 가져오기
+      const imageTag = "Image Tag: " + "{{ imageTag }}";
+      document.getElementById("imageTag").textContent = imageTag;
     </script>
   </body>
 </html>
