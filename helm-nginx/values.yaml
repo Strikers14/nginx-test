@@ -68,7 +68,7 @@ autoscaling:
 strategy:
   type: RollingUpdate
   rollingUpdate:
-    maxSurge: 1
+    maxSurge: 10
     maxUnavailable: 0
 
     
