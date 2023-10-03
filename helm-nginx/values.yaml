@@ -73,7 +73,7 @@ strategy:
               service: "nginx"
               deployment: "nginx"
         canaryDeployment:
-          percentages: 10%
+          percentages: 50%
           verify: true
 
     
