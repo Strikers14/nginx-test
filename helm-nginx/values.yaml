@@ -70,8 +70,8 @@ strategy:
         runtimeConfig:
           kubernetes:
             serviceNetworking:
-              service: nginx
-              deployment: nginx
+              service: "nginx"
+              deployment: "nginx"
         canaryDeployment:
           percentages: 10%
           verify: true
