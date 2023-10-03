@@ -14,6 +14,8 @@ spec:
   template:
     metadata:
       {{- with .Values.podAnnotations }}
+      track: canary
+      version: 2.0.0
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
