@@ -28,7 +28,7 @@ spec:
     spec:
       containers: 
         - name: nginx
-          image: demogaurav.azurecr.io/blue-nginx:1
+          image: asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test
           ports:
             - name: http
               containerPort: 80
