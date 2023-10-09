@@ -44,6 +44,15 @@ jobs:
           workload_identity_provider: ${{ secrets.GKE_PROVIDER_ID }}
           service_account: ${{ secrets.GKE_SERVICE_ACCOUNT }}
           audience: 'https://github.com/Strikers14/nginx-test'
+          
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1.1.1
+
+      - name: Install Google Cloud Auth plugin
+        run: gcloud components install gke-gcloud-auth-plugin
+
+      - name: Get Kubernetes config
+        run: gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --zone ${{ inputs.zone }} --project ${{ secrets.PROJECT_ID }}
       
       - name: Deploy app
         uses: azure/k8s-deploy@v1.3
