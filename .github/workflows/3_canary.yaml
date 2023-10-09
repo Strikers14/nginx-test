@@ -44,7 +44,7 @@ jobs:
       - name: Deploy app
         uses: azure/k8s-deploy@v1.3
         with:
-          namespace: nginx
+          namespace: default
           manifests: |
             ./helm-nginx/templates/service.yaml
             ./helm-nginx/templates/blue-deploy.yaml
@@ -82,7 +82,7 @@ jobs:
         uses: azure/k8s-deploy@v1.3
         if: ${{ success() }}
         with:
-          namespace: nginx
+          namespace: default
           manifests: |
             ./helm-nginx/templates/service.yaml
             ./helm-nginx/templates/green-deploy.yaml
