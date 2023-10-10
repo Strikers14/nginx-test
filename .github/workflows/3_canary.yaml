@@ -71,6 +71,9 @@ jobs:
   approveapp:
     runs-on: ubuntu-latest
     needs: deployapp
+    permissions:
+      id-token: write
+      contents: read
     environment: akspromotion
     steps:
       - run: echo asked for approval
@@ -78,6 +81,9 @@ jobs:
   promotereject:
     runs-on: ubuntu-latest
     needs: approveapp
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v2
 
