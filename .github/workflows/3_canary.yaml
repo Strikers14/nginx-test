@@ -49,21 +49,25 @@ jobs:
 
       - name: "Deploy v1"
         run: |
-          kubectl apply -f recreate/deployment-old.yaml
+          kubectl apply -f ./canary/deployment-old.yaml
 
       - name: "expose v1"
         run: |
-          kubectl apply -f recreate/service.yaml
+          kubectl apply -f ./canary/gateway.yaml -f canary/virtualservice.yaml
 
-      - name: "Check Rollout status"
+      - name: "Check v1 status"
         run: |
-          kubectl rollout status deployment ${{ inputs.release_name }} --namespace ${{ inputs.namespace }}
+          kubectl rollout status deploy app-01 -w
   
-      - name: "Check Rollout history"
+      - name: "Deploy v2"
         run: |
-          kubectl rollout history deployment ${{ inputs.release_name }} --namespace ${{ inputs.namespace }}
+          kubectl apply -f ./canary/deployment-new.yaml
       
-      - name: "Check Pod status"
+      - name: "Check v2 staus"
         run: |
-          kubectl get pod --namespace ${{ inputs.namespace }} -o wide
+          kubectl rollout status deploy app-02 -w
+
+      - name: "Traffic Split"
+        run: |
+          kubectl apply -f ./canary/destinationrule.yaml -f ./canary/virtualservice-split.yaml
       
