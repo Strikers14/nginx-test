@@ -111,7 +111,7 @@ jobs:
           namespace: default
           manifests: |
             ./helm-nginx/templates/service.yaml
-            ./helm-nginx/templates/green-deploy.yaml
+            ./helm-nginx/templates/blue-deploy.yaml
           images: |
             asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-testasia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test:v2
           traffic-split-method: pod
