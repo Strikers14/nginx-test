@@ -62,7 +62,7 @@ jobs:
             ./helm-nginx/templates/service.yaml
             ./helm-nginx/templates/blue-deploy.yaml
           images: |
-            asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test
+            asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test/asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test/sha256:5ce69b0952e339ffc4f1fad3173d399dac2f800f6f0e8b9e157f6bad67ce9ecf
           strategy: canary
           traffic-split-method: pod
           action: deploy  #deploy is the default; we will later use this to promote/reject
@@ -100,7 +100,7 @@ jobs:
             ./helm-nginx/templates/service.yaml
             ./helm-nginx/templates/green-deploy.yaml
           images: |
-            asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test
+            asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test/asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test/sha256:5ce69b0952e339ffc4f1fad3173d399dac2f800f6f0e8b9e157f6bad67ce9ecf
           strategy: canary
           traffic-split-method: pod
           action: promote  #deploy is the default; we will later use this to promote/reject
@@ -116,7 +116,7 @@ jobs:
             ./helm-nginx/templates/service.yaml
             ./helm-nginx/templates/green-deploy.yaml
           images: |
-            asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test
+            asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-testasia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test/sha256:5ce69b0952e339ffc4f1fad3173d399dac2f800f6f0e8b9e157f6bad67ce9ecf
           strategy: canary
           traffic-split-method: pod
           action: reject  #deploy is the default; we will later use this to promote/reject
