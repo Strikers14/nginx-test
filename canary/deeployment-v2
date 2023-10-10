@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+       labels:
+         app: nginx
+         version: "02"
+    spec:
+      containers:
+        - name: app
+          image: gcr.io/{{YOUR_PROJECT_ID}}/app:new
+          livenessProbe:
+             httpGet:
+                path: /version
+                port: 8080
+          readinessProbe:
+             httpGet:
+                path: /version
+                port: 8080
+          lifecycle:
+             preStop:
+                exec:
+                   command: ["/bin/bash", "-c", "sleep 5"]
+          ports:
+            - containerPort: 8080
