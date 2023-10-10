@@ -13,13 +13,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-#env:
-  #ACR_NAME: demogaurav.azurecr.io
-  #ACR_REPO_NAME: demogaurav.azurecr.io/docker-java-app
-  #ARTIFACT_NAME: docker-java-app
-  #RESOURCE_GROUP: Gaurav-RG
-  #AKS_CLUSTER_NAME: Gaurav-AKS-cluster
-  
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -53,74 +46,24 @@ jobs:
 
       - name: Get Kubernetes config
         run: gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --zone asia-northeast3-a --project ${{ secrets.PROJECT_ID }}
+
+      - name: "Deploy v1"
+        run: |
+          kubectl apply -f recreate/deployment-old.yaml
+
+      - name: "expose v1"
+        run: |
+          kubectl apply -f recreate/service.yaml
+
+      - name: "Check Rollout status"
+        run: |
+          kubectl rollout status deployment ${{ inputs.release_name }} --namespace ${{ inputs.namespace }}
+  
+      - name: "Check Rollout history"
+        run: |
+          kubectl rollout history deployment ${{ inputs.release_name }} --namespace ${{ inputs.namespace }}
       
-      - name: Deploy app
-        uses: azure/k8s-deploy@v1.3
-        with:
-          namespace: default
-          manifests: |
-            ./helm-nginx/templates/service.yaml
-            ./helm-nginx/templates/blue-deploy.yaml
-          images: |
-            asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test/asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test:v2
-          traffic-split-method: pod
-          action: deploy  #deploy is the default; we will later use this to promote/reject
-          percentage: 20
-          baseline-and-canary-replicas: 2
-
-  approveapp:
-    runs-on: ubuntu-latest
-    needs: deployapp
-    permissions:
-      id-token: write
-      contents: read
-    environment: akspromotion
-    steps:
-      - run: echo asked for approval
-
-  promotereject:
-    runs-on: ubuntu-latest
-    needs: approveapp
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - uses: actions/checkout@v2
-
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          token_format: 'access_token'
-          workload_identity_provider: ${{ secrets.GKE_PROVIDER_ID }}
-          service_account: ${{ secrets.GKE_SERVICE_ACCOUNT }}
-          audience: 'https://github.com/Strikers14/nginx-test'
-
-      - name: Promote App
-        uses: azure/k8s-deploy@v1.3
-        if: ${{ success() }}
-        with:
-          namespace: default
-          manifests: |
-            ./helm-nginx/templates/service.yaml
-            ./helm-nginx/templates/green-deploy.yaml
-          images: |
-            asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test/asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test:v1
-          action: promote  #deploy is the default; we will later use this to promote/reject
-          percentage: 20
-          baseline-and-canary-replicas: 2
-
-      - name: Reject App
-        uses: azure/k8s-deploy@v1.3
-        if: ${{ failure() }}
-        with:
-          namespace: default
-          manifests: |
-            ./helm-nginx/templates/service.yaml
-            ./helm-nginx/templates/blue-deploy.yaml
-          images: |
-            asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-testasia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test:v2
-          traffic-split-method: pod
-          action: reject  #deploy is the default; we will later use this to promote/reject
-          percentage: 20
-          baseline-and-canary-replicas: 2
+      - name: "Check Pod status"
+        run: |
+          kubectl get pod --namespace ${{ inputs.namespace }} -o wide
+      
