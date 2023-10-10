@@ -28,7 +28,7 @@ spec:
     spec:
       containers: 
         - name: nginx
-          image: asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test
+          image: asia-northeast3-docker.pkg.dev/kjh-test-393501/jh-test/nginx-test:v2
           ports:
             - name: http
               containerPort: 80
