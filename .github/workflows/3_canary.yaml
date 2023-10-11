@@ -47,17 +47,17 @@ jobs:
       - name: Get Kubernetes config
         run: gcloud container clusters get-credentials ${{ secrets.CLUSTER_NAME }} --zone asia-northeast3-a --project ${{ secrets.PROJECT_ID }}
 
-      - name: "Deploy v1"
+      - name: "Deploy product"
         run: |
-          kubectl apply -f ./canary/deployment-old.yaml
+          kubectl apply -f ./canary/production-service.yaml
 
-      - name: "expose v1"
+      - name: "Deploy canary"
         run: |
-          kubectl apply -f ./canary/gateway.yaml -f canary/virtualservice.yaml
-
-      - name: "Check v1 status"
+          kubectl apply -f ./canary/canary-service.yaml
+          
+      - name: "Check status"
         run: |
-          kubectl rollout status deploy app-01 -w
+          kubectl get all
   
       - name: "Deploy v2"
         run: |
