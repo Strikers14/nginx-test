@@ -59,15 +59,17 @@ jobs:
         run: |
           kubectl get all
   
-      - name: "Deploy v2"
+      - name: "Deploy product ingress"
         run: |
-          kubectl apply -f ./canary/deployment-new.yaml
-      
-      - name: "Check v2 staus"
-        run: |
-          kubectl rollout status deploy app-02 -w
+          kubectl apply -f ./canary/production-ingress.yaml
 
-      - name: "Traffic Split"
+      - name: "Deploy canary ingress"
         run: |
-          kubectl apply -f ./canary/destinationrule.yaml -f ./canary/virtualservice-split.yaml
+          kubectl apply -f ./canary/canary-ingress.yaml
+      
+      - name: "Check ingress staus"
+        run: |
+          kubectl get ingress
+
+
       
